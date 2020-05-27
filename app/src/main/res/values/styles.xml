@@ -1,0 +1,90 @@
+<resources>
+    <style name="FormContainer">
+        <item name="android:layout_marginStart">36dp</item>
+        <item name="android:layout_marginEnd">36dp</item>
+    </style>
+
+    <style name="TextViewBaseForm" parent="FormContainer">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:layout_marginBottom">24dp</item>
+    </style>
+
+    <style name="TextViewBaseDialog">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">12dp</item>
+        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:layout_marginStart">12dp</item>
+        <item name="android:textAlignment">textStart</item>
+    </style>
+
+    <style name="ProfileTextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+    
+    <style name="ImageViewPost">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">16dp</item>
+    </style>
+    
+    <style name="LoginFormEditTextInput" parent="FormContainer">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginBottom">20dp</item>
+    </style>
+
+    <style name="LoginFormEditTextInputError" parent="FormContainer">
+        <item name="android:color">@color/red</item>
+        <item name="android:textColor">@color/red</item>
+    </style>
+
+    <style name="LoginFormEditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/edit_text_background</item>
+        <item name="android:padding">16dp</item>
+        <item name="android:layout_marginBottom">4dp</item>
+    </style>
+
+    <style name="LoginFormButton" parent="FormContainer">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/button_background</item>
+        <item name="android:padding">16dp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:layout_marginBottom">24dp</item>
+    </style>
+
+    <style name="LoginFormButton.Link" parent="LoginFormButton">
+        <item name="android:textColor">@color/blueEnable</item>
+        <item name="android:background">@null</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_width">wrap_content</item>
+    </style>
+
+    <style name="LoginTextViewBase" parent="FormContainer">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/grayText</item>
+    </style>
+
+    <style name="Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:background">@drawable/button_background</item>
+    </style>
+
+    <style name="Button.White" parent="Button">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:background">@drawable/button_background_white</item>
+    </style>
+
+</resources>
