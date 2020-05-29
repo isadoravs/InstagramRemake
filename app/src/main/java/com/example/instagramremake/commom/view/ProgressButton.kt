@@ -37,6 +37,7 @@ class ProgressButton@JvmOverloads constructor(context: Context, attrs: Attribute
         text = attributes.getString(R.styleable.ProgressButton_text).toString()
 
         button = getChildAt(0) as AppCompatButton
+        button.id = R.id.login_button_enter
         button.text = text
         button.isEnabled = false
 
