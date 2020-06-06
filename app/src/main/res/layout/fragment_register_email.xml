@@ -28,7 +28,7 @@
             android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.example.instagramremake.commom.view.ProgressButton
+    <com.example.instagramremake.commom.component.ProgressButton
         android:id="@+id/register_button_next"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

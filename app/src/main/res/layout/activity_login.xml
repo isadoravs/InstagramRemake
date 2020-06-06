@@ -48,7 +48,7 @@
                 android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.example.instagramremake.commom.view.ProgressButton
+        <com.example.instagramremake.commom.component.ProgressButton
             android:id="@+id/login_button_enter"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"

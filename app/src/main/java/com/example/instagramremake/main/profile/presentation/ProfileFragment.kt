@@ -6,10 +6,16 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.instagramremake.R
+import com.example.instagramremake.commom.view.AbstractFragment
+import com.example.instagramremake.main.home.presentation.HomeFragment
+import com.example.instagramremake.main.presentation.MainView
+import com.example.instagramremake.register.presentation.RegisterPresenter
 import kotlinx.android.synthetic.main.fragment_main_profile.view.*
 import kotlinx.android.synthetic.main.item_profile_grid.view.*
 
-class ProfileFragment : Fragment() {
+class ProfileFragment : AbstractFragment<ProfilePresenter>() {
+
+    private lateinit var mainView: MainView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -67,5 +73,13 @@ class ProfileFragment : Fragment() {
             itemView.profile_image_grid.setImageResource(image)
         }
 
+    }
+
+    companion object {
+        fun newInstance(mainView: MainView): ProfileFragment {
+            val fragment = ProfileFragment()
+            fragment.mainView = mainView
+            return fragment
+        }
     }
 }

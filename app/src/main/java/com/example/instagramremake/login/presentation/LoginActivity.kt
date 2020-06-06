@@ -15,10 +15,10 @@ import androidx.core.widget.addTextChangedListener
 import androidx.core.widget.doAfterTextChanged
 import androidx.core.widget.doOnTextChanged
 import com.example.instagramremake.R
+import com.example.instagramremake.commom.model.Database
 import com.example.instagramremake.login.datasource.LoginDataSource
 import com.example.instagramremake.login.datasource.LoginLocalDataSource
 import com.example.instagramremake.main.presentation.MainActivity
-import com.example.instagramremake.main.presentation.MainActivity.Companion.launch
 import com.example.instagramremake.register.presentation.RegisterActivity
 import kotlinx.android.synthetic.main.activity_login.*
 
@@ -29,6 +29,11 @@ class LoginActivity : AppCompatActivity(), LoginView, View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
+        setStatusBarDark()
+
+        val user = Database.userAuth
+        if(user != null) onUserLogged()
 
         login_edit_text_email.doOnTextChanged { s, _, _, _ -> onTextChanged(s) }
         login_edit_text_password.doOnTextChanged { s, _, _, _ -> onTextChanged(s) }
@@ -58,7 +63,8 @@ class LoginActivity : AppCompatActivity(), LoginView, View.OnClickListener {
     }
 
     override fun onUserLogged() {
-        launch(this)
+        MainActivity.launch(this, MainActivity.LOGIN_ACTIVITY)
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
     }
 
 

@@ -1,4 +1,4 @@
-package com.example.instagramremake.commom.view
+package com.example.instagramremake.commom.component
 
 import android.app.Dialog
 import android.content.Context
@@ -10,7 +10,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.StringRes
 import com.example.instagramremake.R
-import com.example.instagramremake.register.presentation.RegisterPhotoFragment
 import kotlinx.android.synthetic.main.dialog_custom.*
 
 class CustomDialog(context: Context) : Dialog(context) {
@@ -62,19 +61,20 @@ class CustomDialog(context: Context) : Dialog(context) {
         private lateinit var listener: View.OnClickListener
         private lateinit var texts: IntArray
 
-        fun setTitle(@StringRes id: Int): Builder{
+        fun setTitle(@StringRes id: Int): Builder {
             this.titleId = id
             return this
         }
 
-        fun addButton(listener: View.OnClickListener, @StringRes vararg texts: Int): Builder{
+        fun addButton(listener: View.OnClickListener, @StringRes vararg texts: Int): Builder {
             this.listener = listener
             this.texts = texts
             return this
         }
 
         fun build(): CustomDialog {
-            val customDialog = CustomDialog(context)
+            val customDialog =
+                CustomDialog(context)
             customDialog.setTitle(titleId)
             customDialog.addButton(listener, *texts)
             return customDialog

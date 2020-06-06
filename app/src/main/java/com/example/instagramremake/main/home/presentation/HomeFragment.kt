@@ -6,10 +6,13 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.instagramremake.R
+import com.example.instagramremake.main.presentation.MainView
 import kotlinx.android.synthetic.main.fragment_main_home.view.*
 import kotlinx.android.synthetic.main.item_home_list.view.*
 
-class HomeFragment : Fragment() {
+class HomeFragment() : Fragment() {
+
+    private lateinit var mainView: MainView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -67,5 +70,13 @@ class HomeFragment : Fragment() {
             itemView.home_image_list.setImageResource(image)
         }
 
+    }
+
+    companion object {
+        fun newInstance(mainView: MainView): HomeFragment {
+            val fragment = HomeFragment()
+            fragment.mainView = mainView
+            return fragment
+        }
     }
 }

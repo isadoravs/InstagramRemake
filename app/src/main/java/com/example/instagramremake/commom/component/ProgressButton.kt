@@ -1,4 +1,4 @@
-package com.example.instagramremake.commom.view
+package com.example.instagramremake.commom.component
 
 import android.annotation.SuppressLint
 import android.content.Context

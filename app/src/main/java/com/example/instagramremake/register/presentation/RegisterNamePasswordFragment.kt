@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import com.example.instagramremake.R
 import com.example.instagramremake.commom.view.AbstractFragment
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_register_email.view.*
 import kotlinx.android.synthetic.main.fragment_register_name_password.*
 import kotlinx.android.synthetic.main.fragment_register_name_password.view.*
@@ -31,8 +33,8 @@ class RegisterNamePasswordFragment : AbstractFragment<RegisterPresenter>(),
             activity?.finish()
         }
         view.register_name_button_next.setOnClickListener {
-            presenter?.name = view.register_edit_text_name.text.toString()
-            presenter?.setPassword(
+            presenter?.setPasswordName(
+                view.register_edit_text_name.text.toString(),
                 view.register_edit_text_password.text.toString(),
                 view.register_edit_text_password_confirm.text.toString()
             )
@@ -59,6 +61,10 @@ class RegisterNamePasswordFragment : AbstractFragment<RegisterPresenter>(),
                 )
             }
         }
+    }
+
+    override fun onFailureCreateUser(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show();
     }
 
     override fun showProgressBar() {
