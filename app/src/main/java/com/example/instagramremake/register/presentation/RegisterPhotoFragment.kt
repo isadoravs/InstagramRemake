@@ -47,7 +47,6 @@ class RegisterPhotoFragment : AbstractFragment<RegisterPresenter>(), RegisterVie
 
     @RequiresApi(Build.VERSION_CODES.P)
     override fun onImageCropped(uri: Uri) {
-        println(uri)
         context?.let{
             val bitmap =
                 ImageDecoder.decodeBitmap(ImageDecoder.createSource(it.contentResolver, uri))

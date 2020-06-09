@@ -6,7 +6,7 @@
         android:icon="@drawable/ic_insta_grid"
         android:title="@string/home" />
     <item
-        android:id="@+id/menu_bottom_list"
+        android:id="@+id/menu_profile_list"
         android:enabled="true"
         android:icon="@drawable/ic_insta_listed"
         android:title="@string/search" />

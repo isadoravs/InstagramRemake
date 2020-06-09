@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import androidx.annotation.RequiresApi
@@ -31,8 +32,8 @@ class LoginActivity : AppCompatActivity(), LoginView, View.OnClickListener {
         setContentView(R.layout.activity_login)
 
         setStatusBarDark()
-
         val user = Database.userAuth
+        Log.e("aqui", user.toString())
         if(user != null) onUserLogged()
 
         login_edit_text_email.doOnTextChanged { s, _, _, _ -> onTextChanged(s) }

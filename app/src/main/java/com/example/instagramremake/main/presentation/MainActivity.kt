@@ -4,17 +4,20 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
+import com.example.instagramremake.main.camera.presentation.AddActivity
 import com.example.instagramremake.R
-import com.example.instagramremake.login.presentation.LoginActivity
 import com.example.instagramremake.main.camera.presentation.CameraFragment
+import com.example.instagramremake.main.home.datasource.HomeLocalDataSource
 import com.example.instagramremake.main.home.presentation.HomeFragment
+import com.example.instagramremake.main.home.presentation.HomePresenter
+import com.example.instagramremake.main.profile.datasource.ProfileLocalDataSource
 import com.example.instagramremake.main.profile.presentation.ProfileFragment
+import com.example.instagramremake.main.profile.presentation.ProfilePresenter
 import com.example.instagramremake.main.search.presentation.SearchFragment
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -27,6 +30,9 @@ class MainActivity : AppCompatActivity(), MainView, BottomNavigationView.OnNavig
     private lateinit var searchFragment: SearchFragment
     private lateinit var cameraFragment: CameraFragment
     private lateinit var profileFragment: ProfileFragment
+
+    private lateinit var profilePresenter: ProfilePresenter
+    private lateinit var homePresenter: HomePresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,21 +51,15 @@ class MainActivity : AppCompatActivity(), MainView, BottomNavigationView.OnNavig
         navigationFragments()
     }
 
-    companion object {
-        const val LOGIN_ACTIVITY = 0
-        const val REGISTER_ACTIVITY = 1
-        const val ACT_SOURCE = "act_source"
-        fun launch(context: Context, source: Int) {
-            val intent = Intent(context, MainActivity::class.java)
-            intent.putExtra(ACT_SOURCE, source)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-            context.startActivity(intent)
-        }
-    }
-
     private fun navigationFragments() {
-        homeFragment = HomeFragment()
-        profileFragment = ProfileFragment()
+        val profileDataSource = ProfileLocalDataSource()
+        val homeDataSource = HomeLocalDataSource()
+
+        profilePresenter = ProfilePresenter(profileDataSource)
+        homePresenter = HomePresenter(homeDataSource)
+
+        homeFragment = HomeFragment.newInstance(this, homePresenter)
+        profileFragment = ProfileFragment.newInstance(this, profilePresenter)
         cameraFragment = CameraFragment()
         searchFragment = SearchFragment()
 
@@ -95,6 +95,7 @@ class MainActivity : AppCompatActivity(), MainView, BottomNavigationView.OnNavig
             R.id.menu_bottom_home -> {
                 supportFragmentManager.beginTransaction().hide(active).show(homeFragment).commit()
                 active = homeFragment
+                //homePresenter.findFeed()
                 scrollToolbarEnabled(false)
                 return true
             }
@@ -104,13 +105,15 @@ class MainActivity : AppCompatActivity(), MainView, BottomNavigationView.OnNavig
                 return true
             }
             R.id.menu_bottom_add -> {
-                supportFragmentManager.beginTransaction().hide(active).show(cameraFragment).commit()
-                active = cameraFragment
+                //supportFragmentManager.beginTransaction().hide(active).show(cameraFragment).commit()
+                //active = cameraFragment
+                AddActivity.launch(this)
                 return true
             }
             R.id.menu_bottom_profile -> {
                 supportFragmentManager.beginTransaction().hide(active).show(profileFragment).commit()
                 active = profileFragment
+                //profilePresenter.findUser()
                 scrollToolbarEnabled(true)
                 return true
             }
@@ -132,5 +135,32 @@ class MainActivity : AppCompatActivity(), MainView, BottomNavigationView.OnNavig
             main_appbar.layoutParams = appBarParams
         }
 
+    }
+
+    override fun showProgressBar() {
+        main_progress.visibility= View.VISIBLE
+    }
+
+    override fun hideProgressBar() {
+        main_progress.visibility= View.GONE
+    }
+
+    override fun getContext(): Context? {
+        return baseContext
+    }
+
+    override fun setStatusBarDark() {
+    }
+
+    companion object {
+        const val LOGIN_ACTIVITY = 0
+        const val REGISTER_ACTIVITY = 1
+        const val ACT_SOURCE = "act_source"
+        fun launch(context: Context, source: Int) {
+            val intent = Intent(context, MainActivity::class.java)
+            intent.putExtra(ACT_SOURCE, source)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+            context.startActivity(intent)
+        }
     }
 }

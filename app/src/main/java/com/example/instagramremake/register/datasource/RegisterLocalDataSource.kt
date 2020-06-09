@@ -4,9 +4,10 @@ import android.net.Uri
 import com.example.instagramremake.commom.model.Database
 import com.example.instagramremake.commom.presenter.Presenter
 
-class RegisterLocalDataSource: RegisterDataSource {
+class RegisterLocalDataSource : RegisterDataSource {
+    private val database = Database()
     override fun createUser(name: String, email: String, password: String, presenter: Presenter) {
-        with(Database) {
+        with(database) {
             createUser(name, email, password)
             onSuccessListener = { response ->
                 presenter.onSuccess(response)
@@ -19,8 +20,8 @@ class RegisterLocalDataSource: RegisterDataSource {
     }
 
     override fun addPhoto(uri: Uri, presenter: Presenter) {
-        with(Database){
-            userAuth?.let{
+        Database.userAuth?.let {
+            with(database) {
                 addPhoto(it.uuid, uri)
                 onSuccessListener = { response ->
                     presenter.onSuccess(response)

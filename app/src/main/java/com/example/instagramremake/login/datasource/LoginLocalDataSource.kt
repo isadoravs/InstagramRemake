@@ -4,16 +4,17 @@ import com.example.instagramremake.commom.model.Database
 import com.example.instagramremake.commom.presenter.Presenter
 
 class LoginLocalDataSource : LoginDataSource {
+    private val database = Database()
     override fun onLogin(email: String, password: String, presenter: Presenter) {
-        with(Database) {
-            this.login(email, password)
-            this.onSuccessListener = { response ->
+        with(database) {
+            login(email, password)
+            onSuccessListener = { response ->
                 presenter.onSuccess(response)
             }
-            this.onFailureListener = { error ->
+            onFailureListener = { error ->
                 error.message?.let { presenter.onError(it) }
             }
-            this.onCompleteListener = { presenter.onComplete() }
+            onCompleteListener = { presenter.onComplete() }
         }
 
     }

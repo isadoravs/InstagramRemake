@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_gallery_scroll_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -10,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/main_galery_top"
+        android:id="@+id/main_gallery_top"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@color/red"
@@ -24,10 +25,11 @@
         />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/main_gallery_recycler_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/main_galery_top"
+        app:layout_constraintTop_toBottomOf="@id/main_gallery_top"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:listitem="@layout/item_profile_grid"/>
