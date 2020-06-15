@@ -8,13 +8,20 @@ import com.example.instagramremake.commom.view.View
 
 interface MainView : View {
     fun scrollToolbarEnabled(enabled: Boolean)
-//    fun showProfile(user: String)
-//    fun disposeProfileDetail()
+    fun showProfile(user: String)
+    fun disposeProfileDetail()
 //    fun logout()
 
     interface ProfileView: View {
         fun showPhoto(photo: Uri)
-        fun showData(name: String, following: String, followers: String, posts: String) // editProfile: Boolean, follow: Boolean
+        fun showData(
+            name: String,
+            following: String,
+            followers: String,
+            posts: String,
+            editProfile: Boolean,
+            follow: Boolean
+        )
         fun showPosts(posts: List<Post>)
     }
 

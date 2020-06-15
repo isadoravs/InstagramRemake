@@ -8,9 +8,11 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.instagramremake.main.camera.presentation.AddActivity
 import com.example.instagramremake.R
+import com.example.instagramremake.commom.model.Database
 import com.example.instagramremake.main.camera.presentation.CameraFragment
 import com.example.instagramremake.main.home.datasource.HomeLocalDataSource
 import com.example.instagramremake.main.home.presentation.HomeFragment
@@ -18,12 +20,15 @@ import com.example.instagramremake.main.home.presentation.HomePresenter
 import com.example.instagramremake.main.profile.datasource.ProfileLocalDataSource
 import com.example.instagramremake.main.profile.presentation.ProfileFragment
 import com.example.instagramremake.main.profile.presentation.ProfilePresenter
+import com.example.instagramremake.main.search.datasource.SearchLocalDataSource
 import com.example.instagramremake.main.search.presentation.SearchFragment
+import com.example.instagramremake.main.search.presentation.SearchPresenter
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(), MainView, BottomNavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(), MainView,
+    BottomNavigationView.OnNavigationItemSelectedListener {
     private lateinit var active: Fragment
 
     private lateinit var homeFragment: HomeFragment
@@ -31,8 +36,11 @@ class MainActivity : AppCompatActivity(), MainView, BottomNavigationView.OnNavig
     private lateinit var cameraFragment: CameraFragment
     private lateinit var profileFragment: ProfileFragment
 
+    private var profileDetailFragment: ProfileFragment? = null
+
     private lateinit var profilePresenter: ProfilePresenter
     private lateinit var homePresenter: HomePresenter
+    private lateinit var searchPresenter: SearchPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,14 +62,16 @@ class MainActivity : AppCompatActivity(), MainView, BottomNavigationView.OnNavig
     private fun navigationFragments() {
         val profileDataSource = ProfileLocalDataSource()
         val homeDataSource = HomeLocalDataSource()
+        val searchDataSource = SearchLocalDataSource()
 
         profilePresenter = ProfilePresenter(profileDataSource)
         homePresenter = HomePresenter(homeDataSource)
+        searchPresenter = SearchPresenter(searchDataSource)
 
         homeFragment = HomeFragment.newInstance(this, homePresenter)
         profileFragment = ProfileFragment.newInstance(this, profilePresenter)
         cameraFragment = CameraFragment()
-        searchFragment = SearchFragment()
+        searchFragment = SearchFragment.newInstance(this, searchPresenter)
 
         active = homeFragment
 
@@ -85,14 +95,17 @@ class MainActivity : AppCompatActivity(), MainView, BottomNavigationView.OnNavig
                         .commit()
                     active = profileFragment
                     scrollToolbarEnabled(true)
+                    Database.userAuth?.uuid?.let { userAuth -> profilePresenter.findUser() }
                 }
+                else -> null
             }
         }
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
+        when (item.itemId) {
             R.id.menu_bottom_home -> {
+                if (profileDetailFragment != null) disposeProfileDetail()
                 supportFragmentManager.beginTransaction().hide(active).show(homeFragment).commit()
                 active = homeFragment
                 //homePresenter.findFeed()
@@ -100,8 +113,12 @@ class MainActivity : AppCompatActivity(), MainView, BottomNavigationView.OnNavig
                 return true
             }
             R.id.menu_bottom_search -> {
-                supportFragmentManager.beginTransaction().hide(active).show(searchFragment).commit()
-                active = searchFragment
+                if (profileDetailFragment == null) {
+                    supportFragmentManager.beginTransaction().hide(active).show(searchFragment)
+                        .commit()
+                    active = searchFragment
+                    scrollToolbarEnabled(false)
+                }
                 return true
             }
             R.id.menu_bottom_add -> {
@@ -111,9 +128,11 @@ class MainActivity : AppCompatActivity(), MainView, BottomNavigationView.OnNavig
                 return true
             }
             R.id.menu_bottom_profile -> {
-                supportFragmentManager.beginTransaction().hide(active).show(profileFragment).commit()
+                if(profileDetailFragment != null) disposeProfileDetail()
+                supportFragmentManager.beginTransaction().hide(active).show(profileFragment)
+                    .commit()
                 active = profileFragment
-                //profilePresenter.findUser()
+                profilePresenter.findUser()
                 scrollToolbarEnabled(true)
                 return true
             }
@@ -125,8 +144,9 @@ class MainActivity : AppCompatActivity(), MainView, BottomNavigationView.OnNavig
         val toolbarParams = main_toolbar.layoutParams as AppBarLayout.LayoutParams
         val appBarParams = main_appbar.layoutParams as CoordinatorLayout.LayoutParams
 
-        if(enabled){
-            toolbarParams.scrollFlags = AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
+        if (enabled) {
+            toolbarParams.scrollFlags =
+                AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
             appBarParams.behavior = AppBarLayout.Behavior()
             main_appbar.layoutParams = appBarParams
         } else {
@@ -137,12 +157,45 @@ class MainActivity : AppCompatActivity(), MainView, BottomNavigationView.OnNavig
 
     }
 
+    override fun showProfile(user: String) {
+        val profileDataSource = ProfileLocalDataSource()
+        val profilePresenter = ProfilePresenter(profileDataSource, user)
+
+        profileDetailFragment = ProfileFragment.newInstance(this, profilePresenter)
+
+        supportFragmentManager.beginTransaction()
+            .add(R.id.main_fragment, profileDetailFragment!!, "detail")
+            .hide(active)
+            .commit()
+
+        scrollToolbarEnabled(true)
+
+        val drawable = ContextCompat.getDrawable(this, R.drawable.ic_arrow_back)
+        supportActionBar?.setHomeAsUpIndicator(drawable)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+    }
+
+    override fun disposeProfileDetail() {
+        val drawable = ContextCompat.getDrawable(this, R.drawable.ic_insta_camera)
+        supportActionBar?.setHomeAsUpIndicator(drawable)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+     //   profileDetailFragment?.let {
+        println("aquiiiiii")
+        println(active)
+            supportFragmentManager.beginTransaction().remove(profileDetailFragment!!).show(active)
+                .commit()
+     //   }
+        profileDetailFragment = null
+    }
+
     override fun showProgressBar() {
-        main_progress.visibility= View.VISIBLE
+        main_progress.visibility = View.VISIBLE
     }
 
     override fun hideProgressBar() {
-        main_progress.visibility= View.GONE
+        main_progress.visibility = View.GONE
     }
 
     override fun getContext(): Context? {

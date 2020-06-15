@@ -1,6 +1,5 @@
 package com.example.instagramremake.main.profile.datasource
 
-import android.util.Log
 import com.example.instagramremake.commom.model.Database
 import com.example.instagramremake.commom.model.Post
 import com.example.instagramremake.commom.model.User
@@ -8,29 +7,38 @@ import com.example.instagramremake.commom.model.UserProfile
 import com.example.instagramremake.commom.presenter.Presenter
 
 class ProfileLocalDataSource : ProfileDataSource {
-    private val database = Database()
-    override fun findUser(presenter: Presenter) {
-        Database.userAuth?.let {
-            with(database) {
-                findUser(it.uuid)
-                onSuccessListener = { user ->
-                    if (user is User) {
-                        user as User
-                        Log.e("aqui", "profile localdatasource finduser")
-                        findPosts(user.uuid)
-                        onSuccessListener = { posts ->
-                            if (posts is List<*>) {
-                                Log.e("aqui", "profile localdatasource findposts")
-                                Log.e("aqui", posts.javaClass.toString())
+    override fun findUser(uuid: String, presenter: Presenter) {
+        val database = Database()
 
-                                presenter.onSuccess(UserProfile(user, posts as List<Post>))
+        Database.userAuth?.let {
+            database.findUser(uuid)
+            database.onSuccessListener = { response ->
+                if (response is User) {
+                    database.findPosts(uuid)
+                    database.onSuccessListener = { posts ->
+                        database.following(it.uuid, uuid)
+                        database.onSuccessListener = {following ->
+                            if (posts is List<*>) {
+                                println("ON SUCCESS PROFILE LOCAL DATASOURCE")
+                                presenter.onSuccess(UserProfile(response, posts as List<Post>, following as Boolean))
                                 presenter.onComplete()
                             }
                         }
                     }
                 }
+
             }
         }
+    }
+
+    override fun follow(uuid: String) {
+        val database = Database()
+        Database.userAuth?.uuid?.let { database.follow(it, uuid) }
+    }
+
+    override fun unfollow(uuid: String) {
+        val database = Database()
+        Database.userAuth?.uuid?.let { database.unfollow(it, uuid) }
     }
 
 }

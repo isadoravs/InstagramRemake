@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "727009578427",
+    "firebase_url": "https://instagram-remake-9e673.firebaseio.com",
+    "project_id": "instagram-remake-9e673",
+    "storage_bucket": "instagram-remake-9e673.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:727009578427:android:a89d0a46e0eb1db109089e",
+        "android_client_info": {
+          "package_name": "com.example.instagramremake"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "727009578427-1ci6v5ocrs5a6sbhomo4lrpm7sa1qp3s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNsrMsLuxxQHsU4HtdZMDNVKbxpSb5GAk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "727009578427-1ci6v5ocrs5a6sbhomo4lrpm7sa1qp3s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

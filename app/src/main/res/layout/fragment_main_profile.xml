@@ -135,7 +135,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="marquee"
             android:maxLines="3"
-            android:text="testando tesntando djskadklsa dsajdklsaj jldksajdklsa jkldsa"
+            tools:text="testando tesntando djskadklsa dsajdklsaj jldksajdklsa jkldsa"
             app:layout_constraintEnd_toEndOf="@id/profile_button_edit"
             app:layout_constraintStart_toStartOf="@id/profile_text_view_username"
             app:layout_constraintTop_toBottomOf="@id/profile_text_view_username" />

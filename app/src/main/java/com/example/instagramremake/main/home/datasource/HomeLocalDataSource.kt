@@ -10,7 +10,6 @@ class HomeLocalDataSource : HomeDataSource {
         Database.userAuth?.let { userAuth ->
             with(database) {
                 findFeed(userAuth.uuid)
-                Log.e("aqui", "homelocaldatasouce findfeed")
                 onSuccessListener = { response -> presenter.onSuccess(response) }
                 onFailureListener = { error ->
                     error.message?.let { presenter.onError(it) }
