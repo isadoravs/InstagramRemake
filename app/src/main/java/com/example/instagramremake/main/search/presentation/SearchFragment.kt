@@ -9,10 +9,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.instagramremake.R
 import com.example.instagramremake.commom.model.User
 import com.example.instagramremake.commom.view.AbstractFragment
 import com.example.instagramremake.main.presentation.MainView
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_main_search.view.*
 import kotlinx.android.synthetic.main.item_user_list.*
 import kotlinx.android.synthetic.main.item_user_list.view.*
@@ -79,7 +81,7 @@ class SearchFragment : AbstractFragment<SearchPresenter>(), MainView.SearchView 
     private inner class PostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(user: User) {
             itemView.main_search_text_view_username.text = user.name;
-            //  Glide.with(itemView.context).load(user.photoURL).into(imageUser);
+            Glide.with(this@SearchFragment).load(user.photoUrl).into(itemView.main_search_image_view_user)
             itemView.main_search_text_view_name.text = user.name
         }
     }

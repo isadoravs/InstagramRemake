@@ -13,13 +13,17 @@ import androidx.fragment.app.Fragment
 import com.example.instagramremake.main.camera.presentation.AddActivity
 import com.example.instagramremake.R
 import com.example.instagramremake.commom.model.Database
+import com.example.instagramremake.login.presentation.LoginActivity
 import com.example.instagramremake.main.camera.presentation.CameraFragment
+import com.example.instagramremake.main.home.datasource.HomeFireDataSource
 import com.example.instagramremake.main.home.datasource.HomeLocalDataSource
 import com.example.instagramremake.main.home.presentation.HomeFragment
 import com.example.instagramremake.main.home.presentation.HomePresenter
+import com.example.instagramremake.main.profile.datasource.ProfileFireDataSource
 import com.example.instagramremake.main.profile.datasource.ProfileLocalDataSource
 import com.example.instagramremake.main.profile.presentation.ProfileFragment
 import com.example.instagramremake.main.profile.presentation.ProfilePresenter
+import com.example.instagramremake.main.search.datasource.SearchFireDataSource
 import com.example.instagramremake.main.search.datasource.SearchLocalDataSource
 import com.example.instagramremake.main.search.presentation.SearchFragment
 import com.example.instagramremake.main.search.presentation.SearchPresenter
@@ -60,9 +64,9 @@ class MainActivity : AppCompatActivity(), MainView,
     }
 
     private fun navigationFragments() {
-        val profileDataSource = ProfileLocalDataSource()
-        val homeDataSource = HomeLocalDataSource()
-        val searchDataSource = SearchLocalDataSource()
+        val profileDataSource = ProfileFireDataSource()
+        val homeDataSource = HomeFireDataSource()
+        val searchDataSource = SearchFireDataSource()
 
         profilePresenter = ProfilePresenter(profileDataSource)
         homePresenter = HomePresenter(homeDataSource)
@@ -82,7 +86,7 @@ class MainActivity : AppCompatActivity(), MainView,
         supportFragmentManager.beginTransaction().add(R.id.main_fragment, searchFragment)
             .hide(searchFragment).commit()
         supportFragmentManager.beginTransaction().add(R.id.main_fragment, homeFragment)
-            .hide(homeFragment).commit()
+            .commit()
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -95,7 +99,7 @@ class MainActivity : AppCompatActivity(), MainView,
                         .commit()
                     active = profileFragment
                     scrollToolbarEnabled(true)
-                    Database.userAuth?.uuid?.let { userAuth -> profilePresenter.findUser() }
+                    profilePresenter.findUser()
                 }
                 else -> null
             }
@@ -108,7 +112,7 @@ class MainActivity : AppCompatActivity(), MainView,
                 if (profileDetailFragment != null) disposeProfileDetail()
                 supportFragmentManager.beginTransaction().hide(active).show(homeFragment).commit()
                 active = homeFragment
-                //homePresenter.findFeed()
+                homePresenter.findFeed()
                 scrollToolbarEnabled(false)
                 return true
             }
@@ -128,7 +132,7 @@ class MainActivity : AppCompatActivity(), MainView,
                 return true
             }
             R.id.menu_bottom_profile -> {
-                if(profileDetailFragment != null) disposeProfileDetail()
+                if (profileDetailFragment != null) disposeProfileDetail()
                 supportFragmentManager.beginTransaction().hide(active).show(profileFragment)
                     .commit()
                 active = profileFragment
@@ -158,7 +162,7 @@ class MainActivity : AppCompatActivity(), MainView,
     }
 
     override fun showProfile(user: String) {
-        val profileDataSource = ProfileLocalDataSource()
+        val profileDataSource = ProfileFireDataSource()
         val profilePresenter = ProfilePresenter(profileDataSource, user)
 
         profileDetailFragment = ProfileFragment.newInstance(this, profilePresenter)
@@ -181,13 +185,13 @@ class MainActivity : AppCompatActivity(), MainView,
         supportActionBar?.setHomeAsUpIndicator(drawable)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-     //   profileDetailFragment?.let {
-        println("aquiiiiii")
-        println(active)
-            supportFragmentManager.beginTransaction().remove(profileDetailFragment!!).show(active)
-                .commit()
-     //   }
+        supportFragmentManager.beginTransaction().remove(profileDetailFragment!!).show(active)
+            .commit()
         profileDetailFragment = null
+    }
+
+    override fun logout() {
+        LoginActivity.launch(this)
     }
 
     override fun showProgressBar() {

@@ -1,6 +1,7 @@
 package com.example.instagramremake.login.presentation
 
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -18,9 +19,11 @@ import androidx.core.widget.doOnTextChanged
 import com.example.instagramremake.R
 import com.example.instagramremake.commom.model.Database
 import com.example.instagramremake.login.datasource.LoginDataSource
+import com.example.instagramremake.login.datasource.LoginFireDataSource
 import com.example.instagramremake.login.datasource.LoginLocalDataSource
 import com.example.instagramremake.main.presentation.MainActivity
 import com.example.instagramremake.register.presentation.RegisterActivity
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity(), LoginView, View.OnClickListener {
@@ -32,14 +35,13 @@ class LoginActivity : AppCompatActivity(), LoginView, View.OnClickListener {
         setContentView(R.layout.activity_login)
 
         setStatusBarDark()
-        val user = Database.userAuth
-        Log.e("aqui", user.toString())
+        val user = FirebaseAuth.getInstance().uid
         if(user != null) onUserLogged()
 
         login_edit_text_email.doOnTextChanged { s, _, _, _ -> onTextChanged(s) }
         login_edit_text_password.doOnTextChanged { s, _, _, _ -> onTextChanged(s) }
 
-        val dataSource = LoginLocalDataSource()
+        val dataSource = LoginFireDataSource()
         presenter = LoginPresenter(this, dataSource)
         login_button_enter.setOnClickListener(this)
         login_text_view_register.setOnClickListener(this)
@@ -116,6 +118,13 @@ class LoginActivity : AppCompatActivity(), LoginView, View.OnClickListener {
                 RegisterActivity.launch(this)
             }
 
+        }
+    }
+    companion object {
+        fun launch(context: Context) {
+            val intent = Intent(context, LoginActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+            context.startActivity(intent)
         }
     }
 }

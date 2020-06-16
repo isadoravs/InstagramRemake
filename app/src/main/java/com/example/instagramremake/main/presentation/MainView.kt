@@ -10,10 +10,10 @@ interface MainView : View {
     fun scrollToolbarEnabled(enabled: Boolean)
     fun showProfile(user: String)
     fun disposeProfileDetail()
-//    fun logout()
+    fun logout()
 
-    interface ProfileView: View {
-        fun showPhoto(photo: Uri)
+    interface ProfileView : View {
+        fun showPhoto(photo: String)
         fun showData(
             name: String,
             following: String,
@@ -22,10 +22,11 @@ interface MainView : View {
             editProfile: Boolean,
             follow: Boolean
         )
+
         fun showPosts(posts: List<Post>)
     }
 
-    interface HomeView: View {
+    interface HomeView : View {
         fun showFeed(response: List<Feed>)
     }
 

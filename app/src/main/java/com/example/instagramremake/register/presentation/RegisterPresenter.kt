@@ -6,8 +6,9 @@ import com.example.instagramremake.commom.presenter.Presenter
 import com.example.instagramremake.commom.util.Strings
 import com.example.instagramremake.register.datasource.RegisterDataSource
 import com.example.instagramremake.register.datasource.RegisterLocalDataSource
+import java.util.*
 
-class RegisterPresenter(private val dataSource: RegisterLocalDataSource) : Presenter {
+class RegisterPresenter(private val dataSource: RegisterDataSource) : Presenter {
 
     lateinit var registerView: RegisterView
     lateinit var emailView: RegisterView.EmailView
@@ -45,7 +46,7 @@ class RegisterPresenter(private val dataSource: RegisterLocalDataSource) : Prese
         this.name = name
 
         namePasswordView.showProgressBar()
-        dataSource.createUser(this.email, name, password, this)
+        dataSource.createUser(name.toLowerCase(Locale.ROOT), this.email, password, this)
     }
 
 

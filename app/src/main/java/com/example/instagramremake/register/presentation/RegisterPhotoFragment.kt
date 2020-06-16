@@ -50,7 +50,6 @@ class RegisterPhotoFragment : AbstractFragment<RegisterPresenter>(), RegisterVie
         context?.let{
             val bitmap =
                 ImageDecoder.decodeBitmap(ImageDecoder.createSource(it.contentResolver, uri))
-                println(bitmap)
                 register_camera_icon.setImageBitmap(bitmap)
         }
     }

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.instagramremake.R
 import com.example.instagramremake.commom.view.AbstractFragment
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_main_gallery.*
 import kotlinx.android.synthetic.main.fragment_main_gallery.view.*
 import kotlinx.android.synthetic.main.item_profile_grid.view.*
@@ -47,7 +48,6 @@ class GalleryFragment: AbstractFragment<GalleryPresenter>(), GalleryView {
                 Manifest.permission.READ_EXTERNAL_STORAGE
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            println("pedir permissao")
             requestPermissions(
                 Array(1){Manifest.permission.READ_EXTERNAL_STORAGE}, 0)
         } else {
@@ -62,7 +62,6 @@ class GalleryFragment: AbstractFragment<GalleryPresenter>(), GalleryView {
     ) {
         //super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         //view.dispose()
-        println("vem aqui")
         presenter?.findPictures(context!!)
     }
 
@@ -82,8 +81,6 @@ class GalleryFragment: AbstractFragment<GalleryPresenter>(), GalleryView {
     @RequiresApi(Build.VERSION_CODES.P)
     override fun onPicturesLoaded(uris: List<Uri>) {
         if(uris.isNotEmpty()){
-            println("loaded")
-            println(uris)
             main_gallery_top.setImageURI(uris[0])
             this.uri = uris[0]
         }

@@ -68,11 +68,11 @@ class RegisterNamePasswordFragment : AbstractFragment<RegisterPresenter>(),
     }
 
     override fun showProgressBar() {
-        register_name_button_next.showProgress(true)
+        register_name_button_next?.showProgress(true)
     }
 
     override fun hideProgressBar() {
-        register_name_button_next.showProgress(false)
+        register_name_button_next?.showProgress(false)
     }
 
     private fun onTextChanged(s: CharSequence?) {

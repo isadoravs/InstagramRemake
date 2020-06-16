@@ -3,11 +3,12 @@ package com.example.instagramremake.commom.model
 import android.net.Uri
 
 data class User(
-    val uuid: String,
-    val email: String,
-    val name: String,
+    var uuid: String = "",
+    var email: String = "",
+    var name: String = "",
     var uri: Uri? = null,
-    val following: Int = 0,
-    val followers: Int = 0,
-    val posts: Int = 0
+    var photoUrl: String? = null,
+    var following: Int = 0,
+    var followers: Int = 0,
+    var posts: Int = 0
 )

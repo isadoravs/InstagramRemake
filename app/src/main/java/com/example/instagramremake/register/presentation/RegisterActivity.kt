@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment
 import com.example.instagramremake.R
 import com.example.instagramremake.commom.component.MediaHelper
 import com.example.instagramremake.main.presentation.MainActivity
+import com.example.instagramremake.register.datasource.RegisterFireDataSource
 import com.example.instagramremake.register.datasource.RegisterLocalDataSource
 import kotlinx.android.synthetic.main.activity_register.*
 
@@ -33,7 +34,7 @@ class RegisterActivity : AppCompatActivity(), RegisterView, MediaHelper.OnImageC
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
             window.statusBarColor = ContextCompat.getColor(this, R.color.colorAccent)
         }
-        val dataSource = RegisterLocalDataSource()
+        val dataSource = RegisterFireDataSource()
         presenter = RegisterPresenter(dataSource)
         presenter.registerView = this
 

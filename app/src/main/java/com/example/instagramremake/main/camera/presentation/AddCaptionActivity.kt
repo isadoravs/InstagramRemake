@@ -10,6 +10,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import com.example.instagramremake.R
+import com.example.instagramremake.main.camera.datasource.AddFireDataSource
 import com.example.instagramremake.main.camera.datasource.AddLocalDataSource
 import kotlinx.android.synthetic.main.activity_add_caption.*
 
@@ -32,21 +33,23 @@ class AddCaptionActivity : AppCompatActivity(), AddCaptionView {
         }
 
         uri = intent.extras?.getParcelable<Uri>("uri")
-        println(uri)
         main_add_caption_image_view.setImageURI(uri)
 
-        val dataSource = AddLocalDataSource()
+        val dataSource = AddFireDataSource()
         presenter = AddPresenter(this, dataSource)
 
     }
 
     override fun postSaved() {
+        finish()
     }
 
     override fun showProgressBar() {
+        add_progress.visibility = View.VISIBLE
     }
 
     override fun hideProgressBar() {
+        add_progress.visibility = View.GONE
     }
 
     override fun getContext(): Context? {
@@ -61,7 +64,6 @@ class AddCaptionActivity : AppCompatActivity(), AddCaptionView {
             android.R.id.home -> finish()
             R.id.action_share -> uri?.let {
                 presenter.createPost(it, main_add_caption_edit_text.text.toString())
-                finish()
             }
         }
         return super.onOptionsItemSelected(item)

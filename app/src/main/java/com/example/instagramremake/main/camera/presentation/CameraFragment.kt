@@ -22,7 +22,6 @@ class CameraFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_main_camera, container, false)
         context?.let {
             if(MediaHelper.checkCameraHardware(it)) {
-                println("pedir permissao camera")
                 camera = MediaHelper.getCameraInstance(this)
                 camera?.let {camera ->
                     val cameraPreview = CameraPreview(it, camera)

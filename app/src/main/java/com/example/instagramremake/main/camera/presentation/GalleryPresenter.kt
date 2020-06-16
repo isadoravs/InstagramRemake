@@ -16,7 +16,6 @@ class GalleryPresenter(private val dataSource: GalleryDataSource): Presenter {
     }
 
     override fun onSuccess(response: Any) {
-        println("ON SUCCESSSS")
         if(response is List<*>){
             val uris = ArrayList<Uri>()
             response.forEach{
@@ -24,7 +23,6 @@ class GalleryPresenter(private val dataSource: GalleryDataSource): Presenter {
                 val uri = Uri.parse(it)
                 uris.add(uri)
             }
-            println(uris)
             view.onPicturesLoaded(uris)
         }
 

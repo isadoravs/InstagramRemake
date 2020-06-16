@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginTop="10dp"
     android:orientation="vertical">
 
     <LinearLayout
@@ -34,7 +35,9 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="8dp"
             android:layout_weight="1"
-            android:text="@string/username" />
+            android:text="@string/username"
+            android:textColor="@android:color/black"
+            android:textStyle="bold" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="wrap_content"
@@ -48,49 +51,67 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:scaleType="centerCrop"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/home_container_user_profile"
         app:layout_constraintDimensionRatio="1:1"
-        tools:srcCompat="@tools:sample/backgrounds/scenic"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/home_container_user_profile"
+        tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
 
     <LinearLayout
         android:id="@+id/home_container_user_comment"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="8dp"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
+        android:orientation="horizontal"
+        android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/home_image_list"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/home_image_list">
+
         <androidx.appcompat.widget.AppCompatImageView
             style="@style/ImageViewPost"
-            android:src="@drawable/ic_insta_heart"/>
+            android:src="@drawable/ic_insta_heart" />
+
         <androidx.appcompat.widget.AppCompatImageView
             style="@style/ImageViewPost"
-            android:src="@drawable/ic_insta_comment"/>
+            android:src="@drawable/ic_insta_comment" />
+
         <androidx.appcompat.widget.AppCompatImageView
             style="@style/ImageViewPost"
-            android:src="@drawable/ic_insta_send"/>
+            android:src="@drawable/ic_insta_send" />
     </LinearLayout>
-    
-    <TextView
-        android:id="@+id/home_container_user_caption"
+
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        style="@style/ProfileTextView"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
-        android:maxLines="3"
-        android:ellipsize="end"
-        app:layout_constraintTop_toBottomOf="@id/home_container_user_comment"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/home_container_user_comment">
+
+        <TextView
+            android:id="@+id/home_container_username_caption"
+            style="@style/ProfileTextView"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="0"
+            android:textStyle="bold"
+            tools:text="isadora vasconcellos" />
+
+        <TextView
+            android:id="@+id/home_container_user_caption"
+            style="@style/ProfileTextView"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:paddingStart="5dp"
+            android:paddingEnd="8dp"
+            tools:text="OOOOOI" />
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,13 +9,16 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.instagramremake.R
 import com.example.instagramremake.commom.model.Database
 import com.example.instagramremake.commom.model.Post
 import com.example.instagramremake.commom.view.AbstractFragment
 import com.example.instagramremake.main.presentation.MainView
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_main_profile.*
 import kotlinx.android.synthetic.main.fragment_main_profile.view.*
+import kotlinx.android.synthetic.main.item_profile_grid.*
 import kotlinx.android.synthetic.main.item_profile_grid.view.profile_image_grid
 
 class ProfileFragment : AbstractFragment<ProfilePresenter>(), MainView.ProfileView {
@@ -72,7 +75,7 @@ class ProfileFragment : AbstractFragment<ProfilePresenter>(), MainView.ProfileVi
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            android.R.id.home -> if (presenter?.uuid != Database.userAuth?.uuid) mainView.disposeProfileDetail()
+            android.R.id.home -> if (presenter?.uuid != FirebaseAuth.getInstance().uid) mainView.disposeProfileDetail()
         }
         return super.onOptionsItemSelected(item)
     }
@@ -95,19 +98,14 @@ class ProfileFragment : AbstractFragment<ProfilePresenter>(), MainView.ProfileVi
     }
 
     private inner class PostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(post: Post): Unit {
-            itemView.profile_image_grid.setImageURI(post.uri)
+        fun bind(post: Post) {
+            Glide.with(this@ProfileFragment).load(post.photoUrl).into(itemView.profile_image_grid)
         }
 
     }
 
-    @RequiresApi(Build.VERSION_CODES.P)
-    override fun showPhoto(photo: Uri) {
-        context?.let {
-            val bitmap =
-                ImageDecoder.decodeBitmap(ImageDecoder.createSource(it.contentResolver, photo))
-            profile_image_icon.setImageBitmap(bitmap)
-        }
+    override fun showPhoto(photo: String) {
+        Glide.with(this@ProfileFragment).load(photo).into(profile_image_icon)
     }
 
     override fun showData(
@@ -123,9 +121,6 @@ class ProfileFragment : AbstractFragment<ProfilePresenter>(), MainView.ProfileVi
         profile_text_view_post_count.text = posts
         profile_text_view_followers_count.text = followers
 
-        println("SHOW DATA")
-        println(editProfile)
-        println(follow)
 
         if (editProfile){
             profile_button_edit.setText(R.string.edit_profile)

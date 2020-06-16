@@ -12,6 +12,8 @@ import com.example.instagramremake.R
 import com.example.instagramremake.main.camera.datasource.GalleryLocalDataSource
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_add.*
+import kotlinx.android.synthetic.main.activity_add.toolbar
+import kotlinx.android.synthetic.main.activity_add_caption.*
 
 class AddActivity : AppCompatActivity(), AddView {
     override fun onCreate(savedInstanceState: Bundle?) {

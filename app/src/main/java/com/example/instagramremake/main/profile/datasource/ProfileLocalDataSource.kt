@@ -19,7 +19,6 @@ class ProfileLocalDataSource : ProfileDataSource {
                         database.following(it.uuid, uuid)
                         database.onSuccessListener = {following ->
                             if (posts is List<*>) {
-                                println("ON SUCCESS PROFILE LOCAL DATASOURCE")
                                 presenter.onSuccess(UserProfile(response, posts as List<Post>, following as Boolean))
                                 presenter.onComplete()
                             }

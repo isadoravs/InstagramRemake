@@ -19,8 +19,8 @@ class CameraPreview(context: Context, private val camera: Camera): SurfaceView(c
             camera.setDisplayOrientation(90)
 
             val supportedPreviewSizes = camera.parameters.supportedPreviewSizes
-            val w = supportedPreviewSizes.last().width
-            val h = supportedPreviewSizes.last().height
+            val w = supportedPreviewSizes.first().width
+            val h = supportedPreviewSizes.first().height
 
             camera.parameters.setPreviewSize(w, h)
             camera.parameters.setPictureSize(w, h)

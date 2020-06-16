@@ -5,10 +5,14 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.instagramremake.R
+import com.example.instagramremake.commom.component.CustomDialog
 import com.example.instagramremake.commom.model.Feed
 import com.example.instagramremake.commom.view.AbstractFragment
 import com.example.instagramremake.main.presentation.MainView
+import com.google.firebase.auth.FirebaseAuth
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_main_home.view.*
 import kotlinx.android.synthetic.main.item_home_list.view.*
 
@@ -39,6 +43,28 @@ class HomeFragment() : AbstractFragment<HomePresenter>(), MainView.HomeView {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.menu_settings -> {
+                context?.let {
+                    CustomDialog.Builder(it).setTitle(R.string.logout).addButton(
+                        View.OnClickListener { view ->
+                            when (view.id) {
+                                R.string.logout_action -> {
+                                    FirebaseAuth.getInstance().signOut()
+                                    mainView.logout()
+                                }
+                                R.string.cancel -> return@OnClickListener
+                            }
+                        }, R.string.logout_action, R.string.cancel
+                    )
+                }?.build()?.show()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
 
     private inner class FeedAdapter() : RecyclerView.Adapter<FeedViewHolder>() {
         var feed = listOf<Feed>()
@@ -58,9 +84,11 @@ class HomeFragment() : AbstractFragment<HomePresenter>(), MainView.HomeView {
 
     private inner class FeedViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(feed: Feed): Unit {
-            itemView.home_image_list.setImageURI(feed.post.uri)
+
+            Glide.with(this@HomeFragment).load(feed.post.photoUrl).into(itemView.home_image_list)
+            itemView.home_container_username_caption.text = feed.publisher.name
             itemView.home_container_user_caption.text = feed.post.caption
-            itemView.home_container_user_photo.setImageURI(feed.publisher.uri)
+            Glide.with(this@HomeFragment).load(feed.publisher.photoUrl).into(itemView.home_container_user_photo)
             itemView.home_container_user_username.text = feed.publisher.name
         }
 

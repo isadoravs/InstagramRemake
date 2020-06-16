@@ -7,7 +7,7 @@ import java.lang.Exception
 
 class Database {
     companion object {
-        var userAuth: UserAuth? = UserAuth("10", "user@email.com", "12345")
+        var userAuth: UserAuth? = null// UserAuth("10", "user@email.com", "12345")
         private var usersAuth: HashSet<UserAuth> = HashSet()
         private var users: HashSet<User> = HashSet()
         private var storage: HashSet<Uri> = HashSet()
@@ -15,15 +15,15 @@ class Database {
         private var feed: HashMap<String, HashSet<Feed>> = HashMap()
         private var followers: HashMap<String, HashSet<String>> = HashMap()
 
-        init {
+     //   init {
 //        userAuth = UserAuth("2", "user@email.com", "12345")
 //        userAuth?.uuid?.let {
 //            users.add(User(it, "user1@email.com", "123456"))
 //        }
-            users.add(User("1", "user1@email.com", "isadora1"))
-            users.add(User("2", "user2@email.com", "isadora2"))
-            users.add(User("3", "user3@email.com", "isadora3"))
-        }
+//            users.add(User("1", "user1@email.com", "isadora1"))
+//            users.add(User("2", "user2@email.com", "isadora2"))
+//            users.add(User("3", "user3@email.com", "isadora3"))
+//        }
     }
 
     var onSuccessListener: ((response: Any) -> Unit)? = null
@@ -70,7 +70,6 @@ class Database {
         Handler().postDelayed({
             val followersUser = followers[uuid] ?: HashSet()
             val following = followersUser.contains(uuidMe)
-            println("FOLLOWING $following")
 
             onSuccessListener?.invoke(following)
             onCompleteListener?.invoke()
@@ -170,7 +169,7 @@ class Database {
                 posts = HashSet()
                 Database.posts[uuid] = posts
             }
-            val post = Post(hashCode().toString(), uri, caption, System.currentTimeMillis())
+            val post = Post(hashCode().toString(), uri, caption, System.currentTimeMillis(), "")
             posts.add(post)
 
             var followers = followers[uuid]
@@ -183,7 +182,7 @@ class Database {
                     if (feeds != null) {
                         val feed = Feed(
                             User(uuid, "email@gmail.com", "Isadora V"),
-                            Post(post.uuid, post.uri, post.caption, post.timestamp)
+                            post
                         )
                         feeds.add(feed)
                     }
@@ -192,7 +191,7 @@ class Database {
                 if (feedMe != null) {
                     val feed = Feed(
                         User(uuid, "dois@gmail.com", "Isadora Dois"),
-                        Post(post.uuid, post.uri, post.caption, post.timestamp)
+                        post
                     )
                     feedMe.add(feed)
                 }
